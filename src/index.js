@@ -3,29 +3,47 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      value: null
-    }
-  }
-
   render() {
-    // let currentVar = `current number is ${this.props.value}`;
+    // let currentVar = current number is ${this.props.value}`;
     return (
       <button 
         className="square"
-        onClick={()=>{ this.setState({value: 'X'})}}
+        onClick={()=>this.props.onClick()}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
 }
-
+/*
+Square component have two props is value and onClick();
+*/
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    }
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice(); //create copy of array
+    squares[i] = 'X';
+    this.setState({squares: squares});
+    console.log(this.state.squares);
+  }
+
+  /* The handleClick function create new const variable, is the copy of the state square 
+  -> chua hieu this.setState({squares: squares})  
+  */
+
   renderSquare(i) {
-    return <Square value={i}/>;
+    return (
+        <Square 
+          value={this.state.squares[i]}
+          onClick={() => this.handleClick(i) }
+        />
+      );
     /* this function return the square class with value is i variable */
   }
 
